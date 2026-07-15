@@ -10,6 +10,8 @@ Features are listed in delivery order. Each Feature gets its own `/brainstorming
 
 ## Feature 1: See the current temperature for a searched city 🔫 *tracer bullet*
 
+**Status:** **Published to ADO** — Feature [#20](https://dev.azure.com/EnateInternal/DesktopWeatherAppPOC/_workitems/edit/20) (published as "TEST - Feature 1: See the current temperature for a searched city"), 2026-07-15.
+
 The thinnest end-to-end slice that exercises every layer of the stack: an Electron window running React, a search box that captures a search query, the **Geocoder** resolving that query to exactly one **City**, the **Weather service** fetching from Open-Meteo, and the screen showing the resolved city's name and its current temperature (in °C). A new search replaces what's shown. This proves the whole stack — Electron shell, React UI, both real-IO Open-Meteo seams — works end to end against the live API.
 
 **Out of scope:** the **Weather Condition** icon/label, the five-day **Forecast**, and polished empty / loading / no-City-found / fetch-error states (Feature 2 owns those). Just the happy-path current temperature.
