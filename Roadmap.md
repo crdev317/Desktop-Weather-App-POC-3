@@ -54,7 +54,7 @@ Every requirement in `PRD.md`, mapped to the Feature that owns it.
 | R4 — Auto-pick the best match when more than one place matches | Feature 1 |
 | R5 — Clear "no city found" message when nothing matches | Feature 2 |
 | R6 — Show the resolved city's name and locality detail | Feature 1 |
-| R7 — See **Current Conditions** for the chosen city | Feature 1 |
+| R7 — See **Current Conditions** for the chosen city | Feature 2 |
 | R8 — Current Conditions includes the current temperature | Feature 1 |
 | R9 — Current Conditions shows a **Weather Condition** (label + icon) | Feature 2 |
 | R10 — See a five-day **Forecast** | Feature 3 |
