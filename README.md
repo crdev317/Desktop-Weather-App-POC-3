@@ -6,9 +6,11 @@ forecast — no browser, no sign-in, no clutter. Weather and place data come fro
 **Enate SDLC Factory**; see `CLAUDE.md` for the agent flow and `PRD.md` for scope.
 
 > Status: early build. The Electron + React shell, exact-pinned toolchain and test
-> harness are in place, and the **geocoder** deep module (`resolveCity`) is built and
-> tested against the live Open-Meteo geocoding API. The remaining weather features
-> (weather service, condition mapper, UI) are not built yet.
+> harness are in place, the **geocoder** deep module (`resolveCity`) is built and
+> tested against the live Open-Meteo geocoding API, and the **weather service**'s first
+> slice (`getCurrentTemperature`) fetches a city's current temperature (°C) from the live
+> Open-Meteo forecast API. The remaining weather features (the rest of the weather service —
+> daily forecast, condition mapper, UI) are not built yet.
 
 ## Stack
 
