@@ -5,6 +5,9 @@ All notable changes to this project are recorded here. The **why** matters as mu
 ## [Unreleased]
 
 ### Added
+- `geocoder` deep module (`src/domain/geocoder.ts`) — `resolveCity(query) => Promise<City | null>` calls the live Open-Meteo geocoding endpoint (`count=1`, keyless, native `fetch`), maps the top match `results[0]` to a `City`, and returns `null` when the response omits `results` entirely (the no-match shape) (Story #22, Seam 1). Framework-agnostic — no React or Electron imports.
+- Real-IO Vitest suite for the geocoder (`src/domain/geocoder.test.ts`) — no mock, per Overriding Principle 3: "London" resolves to a non-null City with numeric coordinates, ambiguous "Springfield" resolves to a single top match, and gibberish resolves to `null` (exercising the absent-`results` path).
+- `buildGeocodingUrl` (`src/domain/geocoder.ts`) with a query-injection defence — the raw search query is passed through `encodeURIComponent`, so a crafted query (e.g. `London&count=100`) lands percent-encoded inside `name` and cannot add or override request parameters; the request stays pinned to `count=1`. Guarded by dedicated injection-defence tests (the Story's Security acceptance criterion from `/check-security-design`).
 - Electron + React 18 + TypeScript project skeleton via Electron Forge (Vite template) — the foundation every Feature-1 story builds on (Story #21).
 - Vitest test harness (node environment, `src/**/*.test.ts`) with `test` and `typecheck` npm scripts.
 - `City` domain type (`src/domain/city.ts`) — a resolved place (`name`, `latitude`, `longitude`, optional `country`/`admin1`); the shared primitive the geocoder and weather-service stories depend on.
