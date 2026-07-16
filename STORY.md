@@ -1,12 +1,14 @@
 ## What to build
 
-Implement the `geocoder` deep module — `resolveCity(query: string) => Promise<City | null>` — as framework-agnostic TypeScript (no React or Electron imports), calling the live Open-Meteo geocoding API end-to-end.
+Implement the `weatherService` deep module — `getCurrentTemperature(city: City) => Promise<number>` — as framework-agnostic TypeScript (no React or Electron imports), calling the live Open-Meteo forecast API end-to-end.
 
-Request `https://geocoding-api.open-meteo.com/v1/search?name=<query>&count=1&language=en&format=json` (keyless, no auth headers). Map the top match (`results[0]`) to a resolved **City** — `name` + numeric `latitude`/`longitude`, optional `country`/`admin1`. Return `null` when nothing matches: the no-match body omits the `results` key **entirely** (not `[]`, not `null`), so absent/empty `results` maps to `null`.
+Request `https://api.open-meteo.com/v1/forecast?latitude=<lat>&longitude=<lon>&current=temperature_2m` (keyless). On a 200 body return the finite `current.temperature_2m`, asserting `current_units.temperature_2m === "°C"` (no client-side unit conversion — fixed metric). Throw on a **non-200** status — out-of-range coordinates return HTTP 400 — this is the live-proven error branch.
 
-Ship a real-IO Vitest test (no mock — Technical-Context Overriding Principle 3) covering Seam 1: "London" resolves to a non-null City with a name and numeric coordinates; an ambiguous name ("Springfield") resolves to a single top match; gibberish resolves to `null` (exercising the absent-`results` path).
+Retain defensive throws for a missing/non-numeric `current.temperature_2m`, a wrong unit, or an unparseable body, but treat all three as **defensive-only**: they are unreachable via live real-IO (a well-formed request for valid coordinates always returns a numeric temperature in `"°C"`), so their dedicated fixture tests are deferred (see the known-issue).
 
-**Security control (added by /check-security-design):** URL-encode the search query with `encodeURIComponent` before building the geocoding URL so a crafted query cannot inject or override request parameters (e.g. `count`). See the Security acceptance criteria.
+Ship a real-IO Vitest test (no mock — Overriding Principle 3) covering Seam 2: a real City's coordinates return a finite `"°C"` number; out-of-range coordinates throw (the non-200 branch).
+
+Known-issue (feature-doc-gauntlet): the three defensive-only throw branches (missing/non-numeric temperature, wrong unit, unparseable body) carry **no** Feature-1 test — the no-mock principle blocks reaching them via live real-IO; their Tier-1 recorded-replay fixture tests land when that fixture substrate is first built.
 
 ## Context references
 
@@ -23,14 +25,11 @@ No ADRs apply (`docs/adr/` is empty at design time).
 
 ## Acceptance criteria (ADO Acceptance Criteria field — authoritative)
 
-- [ ] `resolveCity(query)` calls the Open-Meteo geocoding endpoint with `count=1`, no auth headers, and returns `City | null`.
-- [ ] Absent/empty `results` → `null`; a match maps `results[0]` to a City (`name` + numeric `latitude`/`longitude`, optional `country`/`admin1`).
+- [ ] `getCurrentTemperature(city)` calls the forecast endpoint with `current=temperature_2m`, no auth, and returns the finite `current.temperature_2m`.
+- [ ] Asserts `current_units.temperature_2m === "°C"`; no client-side unit conversion.
+- [ ] Throws on non-200 (out-of-range coords → HTTP 400); defensive throws retained for missing/non-numeric temperature, wrong unit, and unparseable body (tests deferred — known-issue).
 - [ ] Module is framework-agnostic — no React or Electron imports.
-- [ ] Real-IO Vitest test (no mock) passes: "London" → non-null City with numeric coords; "Springfield" → single top match; gibberish → `null`.
-
-### Security acceptance criteria
-<!-- Added by /check-security-design (threat: query-parameter injection via the search string). Each is independently testable; the post-PR /review-implementation-security gate checks the merged diff against these. -->
-- [ ] The raw search query is passed through `encodeURIComponent` before interpolation into the geocoding request URL; a test with a query containing `&`, `=`, `#`, `?`, and spaces (e.g. `London&count=100`) asserts the extra tokens are percent-encoded and do NOT add or override request parameters (the request still pins `count=1`).
+- [ ] Real-IO Vitest test (no mock) passes: real City → finite `"°C"` number; out-of-range coords → throws.
 
 ## Plan and Spec (orchestrator-projected — authoritative for this Run)
 
