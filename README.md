@@ -5,9 +5,10 @@ forecast — no browser, no sign-in, no clutter. Weather and place data come fro
 [Open-Meteo](https://open-meteo.com/) (free tier, no API key). Built with the
 **Enate SDLC Factory**; see `CLAUDE.md` for the agent flow and `PRD.md` for scope.
 
-> Status: toolchain scaffold only. The Electron + React shell, exact-pinned toolchain
-> and test harness are in place; the weather features (geocoder, weather service,
-> condition mapper, UI) are not built yet.
+> Status: early build. The Electron + React shell, exact-pinned toolchain and test
+> harness are in place, and the **geocoder** deep module (`resolveCity`) is built and
+> tested against the live Open-Meteo geocoding API. The remaining weather features
+> (weather service, condition mapper, UI) are not built yet.
 
 ## Stack
 
