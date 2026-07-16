@@ -37,6 +37,19 @@ Authority order (lower wins): **ADR > Technical-Context > Context.MD > PRD > Roa
 
 ## Dev commands
 
-<!-- TODO(init): fill once the stack is chosen — install / test tiers / run.
-     Written by /init-tech-context or the first feature build. -->
-_Dev commands not set yet — filled when the stack is chosen (`/init-tech-context`)._
+Stack: Electron 43 (Forge + Vite template) · React 18 · TypeScript 5.9 · Vite 5 ·
+Vitest 2 · Node 22 (`.nvmrc`). Dependencies are exact-pinned with a committed
+`package-lock.json` — always install with `npm ci`, never `npm install` (a version
+bump is a deliberate PR, per `Technical-Context.MD`).
+
+- `npm ci` — install the exact, locked dependency tree
+- `npm start` — run the app in dev (electron-forge)
+- `npm test` — run the Vitest suite once (`vitest run`)
+- `npm run typecheck` — `tsc --noEmit`
+- `npm run lint` — ESLint over `.ts`/`.tsx`
+- `npm run make` / `npm run package` — packaged build
+
+Tests live next to source as `src/**/*.test.ts` (Vitest, node environment). The renderer's
+`index.html` carries a Content-Security-Policy that must allow exactly the two Open-Meteo
+hosts and nothing else — `src/csp.test.ts` and `src/supply-chain.test.ts` guard the CSP and
+the exact-pinning/lockfile policy.

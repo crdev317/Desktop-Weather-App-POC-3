@@ -64,7 +64,7 @@ A small desktop application where the user types a **City** name and immediately
 2. **Weather service** — real-IO tests over Open-Meteo forecast: a known city returns Current Conditions and exactly five Daily Forecasts, the first dated today, with values in the expected units and ranges.
 3. **Condition mapper** — pure unit tests: representative WMO codes map to the expected Weather Condition label/icon category; every code in the table maps to a defined result (no gaps, no throw).
 
-**Prior art:** none yet — this is a greenfield repo. These become the reference tests future work is measured against. Test framework is Vitest for unit/real-IO module tests; Playwright is available for end-to-end but no e2e is committed by this PRD (see Out of Scope).
+**Prior art:** none yet — this is a greenfield repo. These become the reference tests future work is measured against. Test framework is Vitest for unit/real-IO module tests (installed and configured as of the Story #21 scaffold); Playwright is the planned end-to-end tool but is not yet installed and no e2e is committed by this PRD (see Out of Scope).
 
 ## Out of Scope
 
@@ -73,7 +73,7 @@ A small desktop application where the user types a **City** name and immediately
 - A unit toggle or imperial units — units are fixed metric.
 - Hourly forecasts, weather maps/radar, severe-weather alerts, air quality, sunrise/sunset, or any Open-Meteo data beyond current conditions and the five-day daily forecast.
 - Geolocation / "weather for my current location" — the user always searches by name.
-- Committed end-to-end (Playwright) tests — the tooling is present, but this PRD commits only to the three deep-module tests.
+- Committed end-to-end (Playwright) tests — Playwright is the planned e2e tool but is not yet installed; this PRD commits only to the three deep-module tests.
 - Packaging/distribution polish (installers, auto-update, code signing) beyond a local packaged build.
 - Multi-window, multi-city side-by-side views.
 

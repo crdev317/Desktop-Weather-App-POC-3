@@ -8,17 +8,22 @@ Engineering-practice contract for code-writing agents in this project. Every imp
 3. No mocking the Open-Meteo API in tests. Every test that exercises weather-fetching goes over the real API (recorded-replay in Tier 1, live in Tier 2/3) — never a stubbed response.
 
 ## Frameworks
-- **Electron (latest stable)** — desktop shell/runtime
-- **React 18** — UI layer
-- **TypeScript 5.x** — language and type system
-- **Electron Forge (Vite template)** — project scaffolding and build tooling
+> Versions are the exact pins scaffolded by Story #21 (`.nvmrc` + `package.json`/`package-lock.json`).
+- **Electron 43.1.1** — desktop shell/runtime
+- **React 18.3.1** (`react-dom` 18.3.1) — UI layer
+- **TypeScript 5.9.3** — language and type system (bumped from the Forge template's `~4.5.4`, which cannot parse Node 22's `@types/node`)
+- **Electron Forge 7.11.2 (Vite plugin)** with **Vite 5.4.21** and **`@vitejs/plugin-react` 4.7.0** — scaffolding and build tooling
+- **Node 22** — runtime, pinned via `.nvmrc`
 
 ## 3rd-party tech
 - **Open-Meteo** — weather data API (free tier, no API key required)
 
 ## Packages in use
 **HTTP:** native `fetch` (no HTTP client dependency)
-**Testing:** `Vitest` (unit/component tests), `Playwright` (Electron end-to-end tests)
+**UI/build:** `react` / `react-dom` 18.3.1, `@vitejs/plugin-react` 4.7.0 (React-under-Vite)
+**Logging:** `electron-log` 5.4.4 (see Instrumentation)
+**Runtime helper:** `electron-squirrel-startup` 1.0.1 (Windows install shortcuts)
+**Testing:** `Vitest` 2.1.9 — installed and configured (node environment, `src/**/*.test.ts`). `Playwright` (Electron end-to-end) is planned per the testing tiers but **not yet installed**.
 
 ## Toolchain pinning
 - Policy: exact-pinned.
