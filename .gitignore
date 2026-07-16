@@ -12,10 +12,14 @@ Thumbs.db
 .env.*
 !.env.example
 
+# Dependencies
+node_modules/
+
 # Build output
 dist/
 build/
 out/
+.vite/
 
 # AFK orchestrator run artifacts — never committed
 .orchestrator/
